@@ -1,9 +1,14 @@
 <script lang="ts">
 	import { boardState, intoBlockBoard } from "$lib/engine";
+	import { tweened } from 'svelte/motion';
 	import type { PageData } from './$types';
 	import Tile, { deselect as deselectTile, selectedTile } from './Tile.svelte';
 
 	export let data: PageData
+
+	const progress = tweened(0, { duration: 1000 });
+
+	$: $progress = (data.board.flat().filter(tile => tile.value).length - data.startingTiles.length) / (9 * 9 - data.startingTiles.length) 
 
 	function clamp(min: number, num: number, max: number) {
 		return Math.min(Math.max(num, min), max)
@@ -63,6 +68,8 @@
 			{/each}
 		{/each}
 	</div>
+
+	<progress value={$progress}></progress>
 </main>
 
 <style>
@@ -84,5 +91,12 @@
 		grid-template-columns: repeat(3, 1fr);
 
 		margin: 2px;
+	}
+
+	progress {
+		display: block;
+		width: 80%;
+		max-width: 600px;
+		height: 20px;
 	}
 </style>
