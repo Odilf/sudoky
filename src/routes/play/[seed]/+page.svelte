@@ -17,9 +17,11 @@
 		// Input numbers
 		const key = parseInt(event.key)
 		if (key >= 1 && key <= 9) {
-			$selectedTile.value = key
+			if (!data.startingTiles.includes($selectedTile)) $selectedTile.value = key
 		} else if (event.key == 'Backspace' || event.key == 'x') {
-			$selectedTile.value = null
+			if (!data.startingTiles.includes($selectedTile)) $selectedTile.value = null
+		} else if (event.key == 'Escape') {
+			deselectTile()
 		} else {
 			// Move selected with arrow keys
 			let delta = null
@@ -37,38 +39,44 @@
 
 				selectedTile.set(data.board[x][y])
 			}
-		}
+		} 
 
 		data.board = data.board
 	}
+
+	$: invalid = boardState(data.board) === 'invalid'
 </script>
 
 <svelte:window on:keydown={handleKeydown} on:click={deselectTile}/>
 
-<main class:invalid={boardState(data.board) === 'invalid'}>
-	{#each intoBlockBoard(data.board) as blockRow}
-		{#each blockRow as block}
-		<div class='block'>
-			{#each block as row}
-				{#each row as tile}
-					<Tile {tile} startingTile={data.startingTiles.includes(tile)}/>
+<main>
+	<div class='board'>
+		{#each intoBlockBoard(data.board) as blockRow}
+			{#each blockRow as block}
+			<div class='block'>
+				{#each block as row}
+					{#each row as tile}
+						<Tile {tile} startingTile={data.startingTiles.includes(tile)} {invalid}/>
+					{/each}
 				{/each}
+			</div>
 			{/each}
-		</div>
 		{/each}
-	{/each}
+	</div>
 </main>
 
 <style>
 	main {
 		display: grid;
+		place-items: center;
+		height: 100vh;
+		margin-inline: auto;
+	}
+
+	.board {
+		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		margin-top: 1rem;
-		
-		--max-size: 700px;
-		max-height: var(--max-size);
-		max-width: var(--max-size);
-		margin-inline: auto;
 	}
 
 	.block {
@@ -76,9 +84,5 @@
 		grid-template-columns: repeat(3, 1fr);
 
 		margin: 2px;
-	}
-
-	.invalid {
-		/* background-color: rgb(28, 17, 99); */
 	}
 </style>

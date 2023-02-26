@@ -12,6 +12,8 @@
 	--secondary-content: var(--base-content);
 
 	--disabled: rgb(96, 67, 50);
+	--error: rgb(94, 9, 9);
+	--error-content: rgb(241, 35, 93);
 
 	--rounded: 0.25rem;
 }
