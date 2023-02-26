@@ -55,6 +55,7 @@
 <svelte:window on:keydown={handleKeydown} on:click={deselectTile}/>
 
 <main>
+	<a href="/"> Home </a>
 	<div class='board'>
 		{#each intoBlockBoard(data.board) as blockRow}
 			{#each blockRow as block}
@@ -76,7 +77,7 @@
 	main {
 		display: grid;
 		place-items: center;
-		height: 100vh;
+		min-height: 100vh;
 		margin-inline: auto;
 	}
 
