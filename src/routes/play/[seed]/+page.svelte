@@ -8,7 +8,7 @@
 
 	const progress = tweened(0, { duration: 1000 });
 
-	$: $progress = (data.board.flat().filter(tile => tile.value).length - data.startingTiles.length) / (9 * 9 - data.startingTiles.length) 
+	$: $progress = (data.board.flat().filter((tile: Tile) => tile.value).length - data.startingTiles.length) / (9 * 9 - data.startingTiles.length) 
 
 	function clamp(min: number, num: number, max: number) {
 		return Math.min(Math.max(num, min), max)
@@ -70,7 +70,7 @@
 		{/each}
 	</div>
 
-	<progress value={$progress}></progress>
+	<progress value={$progress} />
 </main>
 
 <style>

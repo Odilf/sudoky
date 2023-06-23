@@ -2,13 +2,13 @@ import { shuffler } from "$lib/random";
 import { boardState, tile, type Board } from ".";
 
 export function solve(board: Board, seed: string) {
-	return solveInternal(board, seed, 0, shuffler(seed));
+	return solveInternal(board, 0, shuffler(seed));
 }
 
-function solveInternal(board: Board, seed: string, index: number, shuffle: (array: number[]) => number[]) {
+function solveInternal(board: Board, index: number, shuffle: (array: number[]) => number[]) {
 	const tileValues = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
-	if (boardState(board) === 'solved' || index >= 9 * 9 + 1) {
+	if (boardState(board) === 'solved' || index > 9 * 9) {
 		return true;
 	}
 
@@ -24,7 +24,7 @@ function solveInternal(board: Board, seed: string, index: number, shuffle: (arra
 			board[x][y] = candidate;
 		}
 
-		const solved = solveInternal(board, seed, index + 1, shuffle);
+		const solved = solveInternal(board, index + 1, shuffle);
 
 		if (solved) {
 			return true;

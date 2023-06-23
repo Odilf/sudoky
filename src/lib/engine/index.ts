@@ -32,16 +32,15 @@ export function findTile(board: Board, number: number) {
 
 export type BoardState = 'solved' | 'unsolved' | 'invalid';
 
-// TODO: Probably wrong
 export function boardState(board: Board): BoardState {
 	// This will be set to `unsolved` if any tile is empty
-	let notInvalidState: BoardState = 'solved';
+	let output: BoardState = 'solved';
 
 	const tiles: Tile[][] = Array.from({ length: 9 }, () => []);
 
 	for (const tile of board.flat()) {
 		if (tile.value === null) {
-			notInvalidState = 'unsolved';
+			output = 'unsolved';
 			continue;
 		}
 		
@@ -53,7 +52,7 @@ export function boardState(board: Board): BoardState {
 		sameValuedTiles.push(tile)
 	}
 
-	return notInvalidState;
+	return output;
 }
 
 export function intersects(a: Tile | null, b: Tile | null) {
