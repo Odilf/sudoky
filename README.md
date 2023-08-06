@@ -1,3 +1,3 @@
 # Sudoky
 
-A simple sudoky implementation in Svelte. Not much else to say. 
+A simple sudoku implementation in Svelte. Not much else to say. 
